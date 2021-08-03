@@ -12,7 +12,7 @@ pygame.mixer.init()
 
 # ----- Gera tela principal
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Navinha')
+pygame.display.set_caption('Meteors Evolved')
 
 state = INIT
 while state != QUIT:
