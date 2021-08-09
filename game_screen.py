@@ -98,6 +98,10 @@ def game_screen(window):
                 score += 100
                 if score % 1000 == 0:
                     lives += 1
+                elif score % 3000 == 0:
+                    new_meteor = Meteor(assets)
+                    all_sprites.add(new_meteor)
+                    all_meteors.add(new_meteor)
 
             # Verifica se houve colisão entre nave e meteoro
             hits = pygame.sprite.spritecollide(player, all_meteors, True, pygame.sprite.collide_mask)
@@ -105,7 +109,7 @@ def game_screen(window):
                 # Toca o som da colisão
                 assets[BOOM_SOUND].play()
                 player.kill()
-                lives -= 1
+                #lives -= 1
                 explosao = Explosion(player.rect.center, assets)
                 all_sprites.add(explosao)
                 state = EXPLODING
