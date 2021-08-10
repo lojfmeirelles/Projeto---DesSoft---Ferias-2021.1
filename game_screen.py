@@ -1,8 +1,7 @@
 import pygame
-from pygame.constants import K_w
 from config import FPS, WIDTH, HEIGHT, BLACK, YELLOW, RED
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
-from sprites import Second_Ship, Ship, Meteor, Bullet, Explosion
+from sprites import Ship, Meteor, Bullet, Explosion
 
 
 def game_screen(window):
@@ -24,10 +23,6 @@ def game_screen(window):
     player = Ship(groups, assets)
     all_sprites.add(player)
 
-    # Criando o segundo Jogador
-    player2 = Second_Ship(groups, assets)
-    all_sprites.add(player2)
-
     # Criando os meteoros
     for i in range(8):
         meteor = Meteor(assets)
@@ -41,7 +36,7 @@ def game_screen(window):
 
     keys_down = {}
     score = 0
-    lives = 6
+    lives = 3
 
     # ===== Loop principal =====
     pygame.mixer.music.play(loops=-1)
@@ -69,16 +64,7 @@ def game_screen(window):
                         player.speedx += 8
                     if event.key == pygame.K_SPACE:
                         player.shoot()
-                    if event.key == pygame.K_LCTRL:
-                        player2.speedy -= 8
-                    if event.key == pygame.KSCAN_S:
-                        player2.speedy += 8
-                    if event.key == pygame.KSCAN_A:
-                        player2.speedx -= 8
-                    if event.key == pygame.KSCAN_D:
-                        player2.speedx += 8
-                    if event.key == pygame.K_LSHIFT:
-                        player2.shoot()
+    
 
                 # Verifica se soltou alguma tecla.
                 if event.type == pygame.KEYUP:
@@ -92,14 +78,6 @@ def game_screen(window):
                             player.speedy += 8
                         if event.key == pygame.K_DOWN:
                             player.speedy -= 8
-                        if event.key == pygame.K_LCTRL:
-                            player2.speedy += 8
-                        if event.key == pygame.KSCAN_S:
-                            player2.speedy -= 8
-                        if event.key == pygame.KSCAN_A:
-                            player2.speedx += 8
-                        if event.key == pygame.KSCAN_D:
-                            player2.speedx -= 8
 
         # ----- Atualiza estado do jogo
         # Atualizando a posição dos meteoros
@@ -134,7 +112,7 @@ def game_screen(window):
                 # Toca o som da colisão
                 assets[BOOM_SOUND].play()
                 player.kill()
-                #lives -= 1
+                lives -= 1
                 explosao = Explosion(player.rect.center, assets)
                 all_sprites.add(explosao)
                 state = EXPLODING
@@ -145,22 +123,6 @@ def game_screen(window):
                 all_sprites.add(n)
                 all_meteors.add(n)
             
-            # Verifica se houve colisão entre player 2 e meteoro
-            hits2 = pygame.sprite.spritecollide(player2, all_meteors, True, pygame.sprite.collide_mask)
-            if len(hits2) > 0:
-                # Toca o som da colisão
-                assets[BOOM_SOUND].play()
-                player2.kill()
-                #lives -= 1
-                explosao = Explosion(player2.rect.center, assets)
-                all_sprites.add(explosao)
-                state = EXPLODING
-                keys_down = {}
-                explosion_tick = pygame.time.get_ticks()
-                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
-                n = Meteor(assets)
-                all_sprites.add(n)
-                all_meteors.add(n)
 
         elif state == EXPLODING:
             now = pygame.time.get_ticks()
@@ -170,9 +132,8 @@ def game_screen(window):
                 else:
                     state = PLAYING
                     player = Ship(groups, assets)
-                    player2 = Second_Ship(groups, assets)
                     all_sprites.add(player)
-                    all_sprites.add(player2)
+
 
         # ----- Gera saídas
         window.fill(BLACK)  # Preenche com a cor branca
