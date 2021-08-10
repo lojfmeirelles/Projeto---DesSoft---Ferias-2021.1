@@ -1,10 +1,14 @@
 import pygame
 import random
 from os import path
-
 from config import IMG_DIR, BLACK, FPS, GAME, QUIT
 
-def over_screen(screen):
+
+
+def over_screen(screen, highscore_salvo):
+
+    score = highscore_salvo['high_score']
+    
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
 
@@ -12,10 +16,13 @@ def over_screen(screen):
     background = pygame.image.load(path.join(IMG_DIR, 'starfield.png')).convert()
     background_rect = background.get_rect()
     font = pygame.font.SysFont('LICENSE.txt', 160)
+    font_2 = pygame.font.SysFont('LICENSE.txt', 80)
     text1 = font.render('GAME', True, (255, 0, 0))
     text2 = font.render('OVER!', True, (255, 0, 0))
+    text3 = font_2.render('score: {}'.format(score), True, (255, 0, 0))
     background.blit(text1, (50, 200))
     background.blit(text2, (50, 300))
+    background.blit(text3, (50, 400))
     running = True
     while running:
 

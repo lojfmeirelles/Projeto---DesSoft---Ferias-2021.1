@@ -4,7 +4,7 @@ from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FON
 from sprites import Ship, Meteor, Bullet, Explosion
 
 
-def game_screen(window):
+def game_screen(window, highscore_salvo):
     # Variável para o ajuste de velocidade
     clock = pygame.time.Clock()
 
@@ -35,6 +35,7 @@ def game_screen(window):
     state = PLAYING
 
     keys_down = {}
+    high_score = highscore_salvo['high_score']
     score = 0
     lives = 3
 
@@ -134,6 +135,9 @@ def game_screen(window):
                     player = Ship(groups, assets)
                     all_sprites.add(player)
 
+        #Gravando high score
+        if score > highscore_salvo['high_score']:
+            highscore_salvo['high_score'] = score
 
         # ----- Gera saídas
         window.fill(BLACK)  # Preenche com a cor branca

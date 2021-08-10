@@ -2,10 +2,23 @@
 # ----- Importa e inicia pacotes
 import pygame
 import random
+import json
 from config import WIDTH, HEIGHT, INIT, GAME, QUIT
 from init_screen import init_screen
 from game_screen import game_screen
 from game_over_screen import over_screen
+
+# Tenta ler um arquivo de highscore, se não houver, cria um novo
+try:
+    with open('highscores.json', 'r') as highscores_json:
+        k = highscores_json.read()
+        highscore_salvo = json.loads(k)
+
+except:
+    with open('highscores.json', 'w') as highscores_json:
+        highscore_salvo = {"high_score": 0}
+        dict_json = json.dumps(highscore_salvo)
+        highscores_json.write(dict_json)
 
 pygame.init()
 pygame.mixer.init()
@@ -19,10 +32,10 @@ while state != QUIT:
     if state == INIT:
         state = init_screen(window)
     elif state == GAME:
-        state = game_screen(window)
+        state = game_screen(window, highscore_salvo)
     else:
         state = QUIT
-        state = over_screen(window)
+        state = over_screen(window, highscore_salvo)
 
 
 # ===== Finalização =====
