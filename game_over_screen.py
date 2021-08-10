@@ -1,7 +1,7 @@
 import pygame
 import random
 from os import path
-from config import IMG_DIR, BLACK, FPS, GAME, QUIT
+from config import IMG_DIR, BLACK, FPS, GAME, QUIT, INIT
 
 
 
@@ -34,6 +34,9 @@ def over_screen(screen, highscore_salvo):
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 state = QUIT
+                running = False
+            elif event.type == pygame.K_LCTRL:
+                state = INIT
                 running = False
 
 

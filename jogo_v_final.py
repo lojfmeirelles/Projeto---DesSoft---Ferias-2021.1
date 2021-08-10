@@ -3,7 +3,7 @@
 import pygame
 import random
 import json
-from config import WIDTH, HEIGHT, INIT, GAME, QUIT
+from config import WIDTH, HEIGHT, INIT, GAME, QUIT, OVER
 from init_screen import init_screen
 from game_screen import game_screen
 from game_over_screen import over_screen
@@ -33,10 +33,10 @@ while state != QUIT:
         state = init_screen(window)
     elif state == GAME:
         state = game_screen(window, highscore_salvo)
+    elif state == OVER:
+        state = over_screen(window, highscore_salvo)
     else:
         state = QUIT
-        state = over_screen(window, highscore_salvo)
-
 
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados

@@ -1,5 +1,5 @@
 import pygame
-from config import FPS, WIDTH, HEIGHT, BLACK, YELLOW, RED
+from config import FPS, WIDTH, HEIGHT, BLACK, YELLOW, RED, OVER
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
 from sprites import Ship, Meteor, Bullet, Explosion
 
@@ -160,3 +160,7 @@ def game_screen(window, highscore_salvo):
         pygame.display.update()  # Mostra o novo frame para o jogador
     
     pygame.mixer.quit()
+
+    state = OVER
+
+    return state
