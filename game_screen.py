@@ -130,9 +130,9 @@ def game_screen(window, highscore_salvo):
 
                 # Ganhou pontos!
                 score += 200
-                if score % 1000 == 0:
+                if score % 1000 == 0 or score % 1000 == 100:
                     lives += 1
-                elif score % 6000 == 0:
+                elif score % 6000 == 0 or score % 6000 == 100:
                     new_meteor = Second_Meteor(assets)
                     all_sprites.add(new_meteor)
                     all_yellow_meteors.add(new_meteor)
