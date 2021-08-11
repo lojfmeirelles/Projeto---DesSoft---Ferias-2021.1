@@ -29,7 +29,7 @@ def game_screen(window, highscore_salvo):
 
     # Criando os meteoros que tiram uma vida
     
-    for i in range(1):
+    for i in range(6):
         meteor = Meteor(assets)
         all_sprites.add(meteor)
         all_meteors.add(meteor)
@@ -54,7 +54,7 @@ def game_screen(window, highscore_salvo):
     keys_down = {}
     high_score = highscore_salvo['high_score']
     score = 0
-    lives = 1
+    lives = 3
 
     # ===== Loop principal =====
     pygame.mixer.music.play(loops=-1)
@@ -119,16 +119,14 @@ def game_screen(window, highscore_salvo):
                 # Ganhou pontos!
                 score += 100
                 if score % 1000 == 0:
-                    lives += 1
-                elif score % 3000 == 0:
-                    new_meteor = Meteor(assets)
-                    all_sprites.add(new_meteor)
-                    all_meteors.add(new_meteor)
-                elif score % 5000 == 0:
                     new_life = Life(assets)
                     all_sprites.add(new_life)
                     all_lives.add(new_life)
-                elif score % 6000 == 0:
+                if score % 3000 == 0:
+                    new_meteor = Meteor(assets)
+                    all_sprites.add(new_meteor)
+                    all_meteors.add(new_meteor)
+                if score % 6000 == 0:
                     new_meteor = Second_Meteor(assets)
                     all_sprites.add(new_meteor)
                     all_yellow_meteors.add(new_meteor)
@@ -149,16 +147,14 @@ def game_screen(window, highscore_salvo):
                 # Ganhou pontos!
                 score += 200
                 if score % 1000 == 0 or score % 1000 == 100:
-                    lives += 1
-                elif score % 2500 == 0 or score % 2500 == 100:
                     new_life = Life(assets)
                     all_sprites.add(new_life)
                     all_lives.add(new_life)
-                elif score % 3000 == 0 or score % 3000 == 100:
+                if score % 3000 == 0 or score % 3000 == 100:
                     new_meteor = Meteor(assets)
                     all_sprites.add(new_meteor)
                     all_meteors.add(new_meteor)
-                elif score % 6000 == 0 or score % 6000 == 100:
+                if score % 6000 == 0 or score % 6000 == 100:
                     new_meteor = Second_Meteor(assets)
                     all_sprites.add(new_meteor)
                     all_yellow_meteors.add(new_meteor)
