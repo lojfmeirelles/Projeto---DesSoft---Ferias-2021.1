@@ -28,7 +28,8 @@ def game_screen(window, highscore_salvo):
     all_sprites.add(player)
 
     # Criando os meteoros que tiram uma vida
-    for i in range(8):
+    
+    for i in range(1):
         meteor = Meteor(assets)
         all_sprites.add(meteor)
         all_meteors.add(meteor)
@@ -53,7 +54,7 @@ def game_screen(window, highscore_salvo):
     keys_down = {}
     high_score = highscore_salvo['high_score']
     score = 0
-    lives = 3
+    lives = 1
 
     # ===== Loop principal =====
     pygame.mixer.music.play(loops=-1)
@@ -119,14 +120,18 @@ def game_screen(window, highscore_salvo):
                 score += 100
                 if score % 1000 == 0:
                     lives += 1
-                if score % 3000 == 0:
+                elif score % 3000 == 0:
                     new_meteor = Meteor(assets)
                     all_sprites.add(new_meteor)
                     all_meteors.add(new_meteor)
-                if score % 2500 == 0:
+                elif score % 5000 == 0:
                     new_life = Life(assets)
                     all_sprites.add(new_life)
                     all_lives.add(new_life)
+                elif score % 6000 == 0:
+                    new_meteor = Second_Meteor(assets)
+                    all_sprites.add(new_meteor)
+                    all_yellow_meteors.add(new_meteor)
 
             # Verifica se houve colisão entre tiro e meteoro tipo 1
             hits_2 = pygame.sprite.groupcollide(all_yellow_meteors, all_bullets, True, True, pygame.sprite.collide_mask)
@@ -135,7 +140,7 @@ def game_screen(window, highscore_salvo):
                 assets[DESTROY_SOUND].play()
                 k = Second_Meteor(assets)
                 all_sprites.add(k)
-                all_meteors.add(k)
+                all_yellow_meteors.add(k)
 
                 # No lugar do meteoro antigo, adicionar uma explosão.
                 explosao = Explosion(yellow_meteor.rect.center, assets)
@@ -145,14 +150,19 @@ def game_screen(window, highscore_salvo):
                 score += 200
                 if score % 1000 == 0 or score % 1000 == 100:
                     lives += 1
-                if score % 6000 == 0 or score % 6000 == 100:
-                    new_meteor = Second_Meteor(assets)
-                    all_sprites.add(new_meteor)
-                    all_yellow_meteors.add(new_meteor)
-                if score % 2500 == 0 or score % 2500 == 100:
+                elif score % 2500 == 0 or score % 2500 == 100:
                     new_life = Life(assets)
                     all_sprites.add(new_life)
                     all_lives.add(new_life)
+                elif score % 3000 == 0 or score % 3000 == 100:
+                    new_meteor = Meteor(assets)
+                    all_sprites.add(new_meteor)
+                    all_meteors.add(new_meteor)
+                elif score % 6000 == 0 or score % 6000 == 100:
+                    new_meteor = Second_Meteor(assets)
+                    all_sprites.add(new_meteor)
+                    all_yellow_meteors.add(new_meteor)
+                
                 
             # Verifica se houve colisão entre player 1 e meteoro tipo 1
             hits = pygame.sprite.spritecollide(player, all_meteors, True, pygame.sprite.collide_mask)
@@ -160,7 +170,7 @@ def game_screen(window, highscore_salvo):
                 # Toca o som da colisão
                 assets[BOOM_SOUND].play()
                 player.kill()
-                #lives -= 1
+                lives -= 1
                 explosao = Explosion(player.rect.center, assets)
                 all_sprites.add(explosao)
                 state = EXPLODING
@@ -177,7 +187,7 @@ def game_screen(window, highscore_salvo):
                 # Toca o som da colisão
                 assets[BOOM_SOUND].play()
                 player.kill()
-                #lives -= 2
+                lives -= 2
                 explosao = Explosion(player.rect.center, assets)
                 all_sprites.add(explosao)
                 state = EXPLODING
