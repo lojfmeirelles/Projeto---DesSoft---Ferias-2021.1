@@ -21,7 +21,7 @@ def init_screen(screen):
     second_background_rect.center = background_rect.center
     pisca_surfaces = cycle([background, second_background])
     pisca_superficie = next(pisca_surfaces)
-    pygame.time.set_timer(PISCA, 1000)
+    pygame.time.set_timer(PISCA, 750)
 
     running = True
     while running:
