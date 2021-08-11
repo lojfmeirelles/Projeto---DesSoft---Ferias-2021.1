@@ -5,7 +5,7 @@ from config import METEOR_WIDTH, METEOR_HEIGHT, SHIP_WIDTH, SHIP_HEIGHT, IMG_DIR
 
 BACKGROUND = 'background'
 METEOR_IMG = 'meteor_img'
-METEOR_IMG = 'meteor_img'
+METEOR2_IMG = 'meteor2_img'
 SHIP_IMG = 'ship_img'
 SHIP2_IMG = 'ship2_img'
 BULLET_IMG = 'bullet_img'
@@ -21,10 +21,10 @@ def load_assets():
     assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'starfield.png')).convert()
     assets[METEOR_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'meteorBrown_med1.png')).convert_alpha()
     assets[METEOR_IMG] = pygame.transform.scale(assets['meteor_img'], (METEOR_WIDTH, METEOR_HEIGHT))
+    assets[METEOR2_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'meteorYellow.png')).convert_alpha()
+    assets[METEOR2_IMG] = pygame.transform.scale(assets['meteor2_img'], (METEOR_WIDTH, METEOR_HEIGHT))
     assets[SHIP_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'playerShip1_orange.png')).convert_alpha()
     assets[SHIP_IMG] = pygame.transform.scale(assets['ship_img'], (SHIP_WIDTH, SHIP_HEIGHT))
-    assets[SHIP2_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'PlayerShip2.png')).convert_alpha()
-    assets[SHIP2_IMG] = pygame.transform.scale(assets['ship2_img'], (SHIP_WIDTH, SHIP_HEIGHT))
     assets[BULLET_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'laserRed16.png')).convert_alpha()
     explosion_anim = []
     for i in range(9):

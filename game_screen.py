@@ -1,7 +1,7 @@
 import pygame
 from config import FPS, WIDTH, HEIGHT, BLACK, YELLOW, RED, OVER
 from assets import load_assets, DESTROY_SOUND, BOOM_SOUND, BACKGROUND, SCORE_FONT
-from sprites import Ship, Meteor, Bullet, Explosion
+from sprites import Second_Meteor, Ship, Meteor, Bullet, Explosion
 
 
 def game_screen(window, highscore_salvo):
@@ -14,20 +14,28 @@ def game_screen(window, highscore_salvo):
     all_sprites = pygame.sprite.Group()
     all_meteors = pygame.sprite.Group()
     all_bullets = pygame.sprite.Group()
+    all_yellow_meteors = pygame.sprite.Group()
     groups = {}
     groups['all_sprites'] = all_sprites
     groups['all_meteors'] = all_meteors
     groups['all_bullets'] = all_bullets
+    groups['all_yellow_meteors'] = all_yellow_meteors
 
     # Criando o jogador
     player = Ship(groups, assets)
     all_sprites.add(player)
 
-    # Criando os meteoros
+    # Criando os meteoros que tiram uma vida
     for i in range(8):
         meteor = Meteor(assets)
         all_sprites.add(meteor)
         all_meteors.add(meteor)
+
+    # Criando os meteoros que tiram 2 vidas de uma vez
+    for t in range(2):
+        yellow_meteor = Second_Meteor(assets)
+        all_sprites.add(yellow_meteor)
+        all_yellow_meteors.add(yellow_meteor)
 
     DONE = 0
     PLAYING = 1
@@ -85,7 +93,7 @@ def game_screen(window, highscore_salvo):
         all_sprites.update()
 
         if state == PLAYING:
-            # Verifica se houve colisão entre tiro e meteoro
+            # Verifica se houve colisão entre tiro e meteoro tipo 1
             hits = pygame.sprite.groupcollide(all_meteors, all_bullets, True, True, pygame.sprite.collide_mask)
             for meteor in hits: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
                 # O meteoro e destruido e precisa ser recriado
@@ -107,7 +115,29 @@ def game_screen(window, highscore_salvo):
                     all_sprites.add(new_meteor)
                     all_meteors.add(new_meteor)
 
-            # Verifica se houve colisão entre player 1 e meteoro
+            # Verifica se houve colisão entre tiro e meteoro tipo 1
+            hits_2 = pygame.sprite.groupcollide(all_yellow_meteors, all_bullets, True, True, pygame.sprite.collide_mask)
+            for yellow_meteor in hits_2: # As chaves são os elementos do primeiro grupo (meteoros) que colidiram com alguma bala
+                # O meteoro e destruido e precisa ser recriado
+                assets[DESTROY_SOUND].play()
+                k = Second_Meteor(assets)
+                all_sprites.add(k)
+                all_meteors.add(k)
+
+                # No lugar do meteoro antigo, adicionar uma explosão.
+                explosao = Explosion(yellow_meteor.rect.center, assets)
+                all_sprites.add(explosao) 
+
+                # Ganhou pontos!
+                score += 200
+                if score % 1000 == 0:
+                    lives += 1
+                elif score % 6000 == 0:
+                    new_meteor = Second_Meteor(assets)
+                    all_sprites.add(new_meteor)
+                    all_yellow_meteors.add(new_meteor)
+
+            # Verifica se houve colisão entre player 1 e meteoro tipo 1
             hits = pygame.sprite.spritecollide(player, all_meteors, True, pygame.sprite.collide_mask)
             if len(hits) > 0:
                 # Toca o som da colisão
@@ -123,6 +153,23 @@ def game_screen(window, highscore_salvo):
                 n = Meteor(assets)
                 all_sprites.add(n)
                 all_meteors.add(n)
+            
+            # Verifica se houve colisão entre player 1 e meteoro tipo 2
+            hits_2 = pygame.sprite.spritecollide(player, all_yellow_meteors, True, pygame.sprite.collide_mask)
+            if len(hits_2) > 0:
+                # Toca o som da colisão
+                assets[BOOM_SOUND].play()
+                player.kill()
+                lives -= 2
+                explosao = Explosion(player.rect.center, assets)
+                all_sprites.add(explosao)
+                state = EXPLODING
+                keys_down = {}
+                explosion_tick = pygame.time.get_ticks()
+                explosion_duration = explosao.frame_ticks * len(explosao.explosion_anim) + 400
+                y = Second_Meteor(assets)
+                all_sprites.add(y)
+                all_yellow_meteors.add(y)
             
 
         elif state == EXPLODING:
