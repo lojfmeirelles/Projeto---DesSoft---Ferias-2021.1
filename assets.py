@@ -18,6 +18,9 @@ PEW_SOUND = 'pew_sound'
 
 
 def load_assets():
+
+    pygame.mixer.init()
+
     assets = {}
     assets[BACKGROUND] = pygame.image.load(os.path.join(IMG_DIR, 'starfield.png')).convert()
     assets[METEOR_IMG] = pygame.image.load(os.path.join(IMG_DIR, 'meteorBrown_med1.png')).convert_alpha()

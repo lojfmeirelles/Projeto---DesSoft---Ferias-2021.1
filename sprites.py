@@ -197,4 +197,4 @@ class Life(pygame.sprite.Sprite):
             self.rect.x = random.randint(0, WIDTH-LIFE_WIDTH)
             self.rect.y = random.randint(-100, -LIFE_HEIGHT)
             self.speedx = 0
-            self.speedy = random.randint(2, 6)
+            self.speedy = random.randint(3, 6)

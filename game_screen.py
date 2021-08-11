@@ -203,7 +203,7 @@ def game_screen(window, highscore_salvo):
         elif state == EXPLODING:
             now = pygame.time.get_ticks()
             if now - explosion_tick > explosion_duration:
-                if lives == 0:
+                if lives <= 0:
                     state = DONE
                 else:
                     state = PLAYING
@@ -211,8 +211,7 @@ def game_screen(window, highscore_salvo):
                     all_sprites.add(player)
 
         #Gravando high score
-        if score > highscore_salvo['high_score']:
-            highscore_salvo['high_score'] = score
+        highscore_salvo['high_score'] = score
 
         # ----- Gera saídas
         window.fill(BLACK)  # Preenche com a cor branca
